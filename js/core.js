@@ -247,32 +247,32 @@
 
     Tournament.Element.extend = inherits;
 
-    Tournament.Match = Tournament.Element.extend({
+    Tournament.Player = Tournament.Element.extend({
         display: true,
         inRange: function(tx, ty) {
+            // TODO Check if element's area contains point (tx, ty)
             return false;
         },
         draw: function() {
             if (this.display) {
                 var ctx = this.ctx;
 
-                ctx.beginPath();
-
                 ctx.fillStyle = this.fillColor;
                 ctx.strokeStyle = this.strokeColor;
                 ctx.lineWidth = this.strokeWidth;
 
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x, this.y + this.height);
-                ctx.lineTo(this.x + this.width, this.y + this.height);
-                ctx.lineTo(this.x + this.width, this.y);
+                ctx.rect(this.x, this.y, this.width, this.height);
                 ctx.fill();
                 if (this.showStroke) {
                     ctx.stroke();
                 }
+
+                // TODO draw player's name (this.player)
+
+                // TODO draw player's score (this.score)
             }
         }
-    })
+    });
 
     if (amd) {
         define('Tournament', [], function() {
