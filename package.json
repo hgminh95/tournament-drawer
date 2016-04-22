@@ -1,0 +1,23 @@
+{
+  "name": "tournament-drawer",
+  "description": "A library for rendering tournament bracket",
+  "version": "0.0.1beta",
+  "author": "hgminh95 <hgminh95@gmail.com>",
+  "contributors": [
+
+  ],
+  "license" : "MIT",
+  "repository": "hgminh95/tournament-drawer",
+  "homepage": "www.example.com",
+  "keywords": [
+    "tournament"
+  ],
+  "main": "js/tournament.js",
+  "scripts": {
+    "postinstall": "pwd"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}
