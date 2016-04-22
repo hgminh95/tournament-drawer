@@ -3,10 +3,8 @@
   "description": "A library for rendering tournament bracket",
   "version": "0.0.1beta",
   "author": "hgminh95 <hgminh95@gmail.com>",
-  "contributors": [
-
-  ],
-  "license" : "MIT",
+  "contributors": [],
+  "license": "MIT",
   "repository": "hgminh95/tournament-drawer",
   "homepage": "www.example.com",
   "keywords": [
@@ -17,7 +15,11 @@
     "postinstall": "pwd"
   },
   "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.3"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

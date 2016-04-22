@@ -40,13 +40,13 @@
             this.render();
         },
 
-        draw() {
+        draw: function() {
             helpers.each(this.matches, function(match, index) {
                 match.draw();
             }, this);
         },
 
-        generateDummyData() {
+        generateDummyData: function() {
             return {
                 meta: {
                     height: 25
