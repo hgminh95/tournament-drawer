@@ -152,6 +152,47 @@
         tournament.ctx.clearRect(0, 0, tournament.width, tournament.height);
     }
 
+    var addEvent = helpers.addEvent = function(node, eventType, method) {
+        if (node.addEventListener) {
+            node.addEventListener(eventType, method);
+        }
+        else if (node.attachEvent) {
+            node.attachEvent('on' + eventType, method);
+        }
+        else {
+            node['on' + eventType] = method;
+        }
+    }
+
+    var removeEvent = helpers.removeEvent = function(node, eventType, handler) {
+        if (node.removeEventListener) {
+            node.removeEventListener(eventType, handler, false);
+        }
+        else if (node.detachEvent) {
+            node.detachEvent('on' + eventType, handler);
+        }
+        else {
+            node['on' + eventType] = noop;
+        }
+    }
+
+    var bindEvents = helpers.bindEvents = function(tournament, events, handler) {
+        if (!tournament.events) tournament.events = {};
+
+        each(events, function(eventName) {
+            tournament.events[eventName] = function() {
+                handler.apply(tournament, arguments);
+            };
+
+            addEvent(tournament.tournament.canvas, eventName, tournament.events[eventName]);
+        });
+    }
+
+    var unbindEvents = helpers.unbindEvents = function(tournament, events) {
+        each(events, function(handler, eventName) {
+            removeEvent(tournament.tournament.canvas, eventName, handler);
+        });
+    }
 
     Tournament.instances = {};
 
@@ -273,6 +314,13 @@
             }
         }
     });
+
+    helpers.addEvent(window, "resize", (function() {
+        return function() {
+            // TODO resize all tournament.
+            console.log("Window resize");
+        }
+    })());;
 
     if (amd) {
         define('Tournament', [], function() {
