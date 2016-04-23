@@ -60,18 +60,17 @@
         initialize: function(data) {
             this.matches = [];
 
-            data = this.generateDummyData();
-            console.log(this.defaults);
+            var options = this.options;
 
             helpers.each(data.matches, function(match, index) {
                 this.matches.push(new Tournament.Match({
                     ctx: this.tournament.ctx,
-                    x: match.group * this.defaults.roundWidth + match.group * this.defaults.roundSpacing + 5,
+                    x: match.group * options.roundWidth + match.group * options.roundSpacing + 5,
                     y: match.position + 5,
-                    width: this.defaults.roundWidth,
+                    width: options.roundWidth,
                     height: data.meta.height,
                     strokeColor: "red",
-                    fillColor: "orange",
+                    fillColor: options.barColor,
                     strokeWidth: 1,
                     showStroke: true
                 }));
@@ -85,43 +84,5 @@
                 match.draw();
             }, this);
         },
-
-        generateDummyData: function() {
-            return {
-                meta: {
-                    height: 25
-                },
-                matches: [
-                    {
-                        group: 0,
-                        position: 0,
-                    },
-                    {
-                        group: 0,
-                        position: 40
-                    },
-                    {
-                        group: 0,
-                        position: 80
-                    },
-                    {
-                        group: 0,
-                        position: 120
-                    },
-                    {
-                        group: 1,
-                        position: 20
-                    },
-                    {
-                        group: 1,
-                        position: 100
-                    },
-                    {
-                        group: 2,
-                        position: 60
-                    }
-                ]
-            }
-        }
-    })
+    });
 }).call(this);

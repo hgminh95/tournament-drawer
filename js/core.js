@@ -14,7 +14,8 @@
 
     Tournament.defaults = {
         global: {
-
+            //
+            barColor: "orange"
         }
     };
 

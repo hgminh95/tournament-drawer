@@ -2,8 +2,9 @@
 <html>
   <head>
     <script type="text/javascript" src='../js/core.js'></script>
-    <script type="text/javascript" src='../js/test.js'></script>
     <script type="text/javascript" src='../js/elimination.js'></script>
+
+    <script type="text/javascript" src='../js/test.js'></script>
   </head>
   <body>
     <canvas id="sampleCanvas" width="500px" height="500px"></canvas>
@@ -11,7 +12,7 @@
     <script type="text/javascript">
 
     var ctx = document.getElementById("sampleCanvas").getContext("2d");
-    var tour = new Tournament(ctx).Elimination({}, {});
+    var tour = new Tournament(ctx).Elimination(generateFakeData(), {});
 
     </script>
   </body>
