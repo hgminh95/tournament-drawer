@@ -20,6 +20,8 @@
         },
         draw: function() {
             if (this.display) {
+                // TODO draw connecting line between match
+
                 var player1 = new Tournament.Player({
                     ctx: this.ctx,
                     x: this.x,
@@ -29,7 +31,9 @@
                     strokeColor: this.strokeColor,
                     fillColor: this.fillColor,
                     strokeWidth: this.strokeWidth,
-                    showStroke: this.showStroke
+                    showStroke: this.showStroke,
+                    player: this.player1,
+                    score: this.score1
                 });
 
                 var player2 = new Tournament.Player({
@@ -41,13 +45,13 @@
                     strokeColor: this.strokeColor,
                     fillColor: this.fillColor,
                     strokeWidth: this.strokeWidth,
-                    showStroke: this.showStroke
+                    showStroke: this.showStroke,
+                    player: this.player1,
+                    score: this.score1
                 });
 
                 player1.draw();
                 player2.draw();
-
-                // TODO draw connecting line between match
             }
         }
     })
@@ -76,13 +80,25 @@
                 }));
             }, this);
 
+            // TODO bind events
+
             this.render();
         },
 
         draw: function() {
+            // TODO draw round name
+
             helpers.each(this.matches, function(match, index) {
                 match.draw();
             }, this);
         },
+
+        schedule: function(type, options) {
+            // TODO auto generate data.matches
+            // type: "single" or "double"
+            // options:
+            //     playersCount <required> number of players
+            //     ... will be added later
+        }
     });
 }).call(this);

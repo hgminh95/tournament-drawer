@@ -309,9 +309,9 @@
                     ctx.stroke();
                 }
 
-                // TODO draw player's name (this.player)
+                // TODO draw player's name (use this.player)
 
-                // TODO draw player's score (this.score)
+                // TODO draw player's score (use this.score)
             }
         }
     });
