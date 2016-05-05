@@ -15,7 +15,7 @@
     Tournament.defaults = {
         global: {
             //
-            barColor: "orange"
+            barColor: "#fff"
         }
     };
 
@@ -303,15 +303,24 @@
                 ctx.strokeStyle = this.strokeColor;
                 ctx.lineWidth = this.strokeWidth;
 
+                ctx.beginPath();
                 ctx.rect(this.x, this.y, this.width, this.height);
                 ctx.fill();
                 if (this.showStroke) {
                     ctx.stroke();
                 }
 
-                // TODO draw player's name (use this.player)
+                if (this.player != null) {
+                    ctx.textAlign = "left";
+                    ctx.fillStyle = "#666666";
+                    ctx.fillText(this.player, this.x + 10, this.y + this.height / 2 + 4);
+                }
 
-                // TODO draw player's score (use this.score)
+                if (this.score != null) {
+                    ctx.textAlign = "right";
+                    ctx.fillStyle = "#666666";
+                    ctx.fillText(this.score, this.x + this.width - 10, this.y + this.height / 2 + 4);
+                }
             }
         }
     });

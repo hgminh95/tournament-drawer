@@ -7,10 +7,14 @@
 
     var defaultConfig = {
         // Number - Width of a round
-        roundWidth: 80,
+        roundWidth: 120,
 
         // Number - Space between round
-        roundSpacing: 30
+        roundSpacing: 60,
+
+        textStyle: "10px Open Sans",
+
+        strokeColor: "#ddd"
     }
 
     Tournament.Match = Tournament.Element.extend({
@@ -54,8 +58,8 @@
                     fillColor: this.fillColor,
                     strokeWidth: this.strokeWidth,
                     showStroke: this.showStroke,
-                    player: this.player1,
-                    score: this.score1
+                    player: this.player2,
+                    score: this.score2
                 });
 
                 player1.draw();
@@ -92,10 +96,14 @@
                     y: match.position + 5,
                     width: options.roundWidth,
                     height: data.meta.height,
-                    strokeColor: "red",
+                    strokeColor: options.strokeColor,
                     fillColor: options.barColor,
                     strokeWidth: 1,
-                    showStroke: true
+                    showStroke: true,
+                    player1: match.player1,
+                    player2: match.player2,
+                    score1: match.score1,
+                    score2: match.score2
                 }));
 
                 if (match.link1 != null)
@@ -113,6 +121,7 @@
         draw: function() {
             // TODO draw round name
 
+            ctx.font = this.options.textStyle;
             helpers.each(this.matches, function(match, index) {
                 match.draw();
             }, this);

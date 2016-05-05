@@ -12,9 +12,8 @@
     <script type="text/javascript">
 
     var ctx = document.getElementById("sampleCanvas").getContext("2d");
-    var tour = new Tournament(ctx).Elimination(generateFakeData(), {
-      barColor: 'green'
-    });
+    ctx.translate(0.5, 0.5);
+    var tour = new Tournament(ctx).Elimination(generateFakeData());
 
     </script>
   </body>

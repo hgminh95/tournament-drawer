@@ -1,7 +1,7 @@
 var generateFakeData = function() {
     return {
         meta: {
-            height: 25
+            height: 50
         },
         matches: [
             {
@@ -18,7 +18,7 @@ var generateFakeData = function() {
                 score1: 3,
                 score2: 0,
                 group: 0,
-                position: 40
+                position: 80
             },
             {
                 player1: 'Very long player"s name',
@@ -26,14 +26,14 @@ var generateFakeData = function() {
                 score1: 1,
                 score2: 3,
                 group: 0,
-                position: 80
+                position: 160
             },
             {
                 player1: 'Player 5',
                 player2: 'Player 6',
                 // Missing score means this match have not been played.
                 group: 0,
-                position: 120
+                position: 240
             },
             {
                 player1: 'Player 1',
@@ -41,7 +41,7 @@ var generateFakeData = function() {
                 link1: 0,
                 link2: 1,
                 group: 1,
-                position: 20
+                position: 40
             },
             {
                 player1: 'short',
@@ -49,13 +49,13 @@ var generateFakeData = function() {
                 link1: 2,
                 link2: 3,
                 group: 1,
-                position: 100
+                position: 200
             },
             {
                 link1: 4,
                 link2: 5,
                 group: 2,
-                position: 60
+                position: 120
             }
         ]
     }
