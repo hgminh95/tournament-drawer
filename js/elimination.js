@@ -14,14 +14,22 @@
     }
 
     Tournament.Match = Tournament.Element.extend({
+        initialize: function() {
+            this.connectPoints = []
+        },
         display: true,
         inRange: function(tx, ty) {
             return false;
         },
+        addLink: function(match) {
+            var connectPoint = {};
+            connectPoint.x = match.x + match.width;
+            connectPoint.y = match.y + match.height / 2;
+
+            this.connectPoints.push(connectPoint);
+        },
         draw: function() {
             if (this.display) {
-                // TODO draw connecting line between match
-
                 var player1 = new Tournament.Player({
                     ctx: this.ctx,
                     x: this.x,
@@ -52,6 +60,17 @@
 
                 player1.draw();
                 player2.draw();
+
+                helpers.each(this.connectPoints, function(point, index) {
+                    console.log(this.x + " " + this.y + " connect to " + point.x + " " + point.y);
+
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y + this.height / 2);
+                    ctx.lineTo((this.x + point.x) / 2, this.y + this.height / 2);
+                    ctx.lineTo((this.x + point.x) / 2, point.y);
+                    ctx.lineTo(point.x, point.y);
+                    ctx.stroke();
+                }, this);
             }
         }
     })
@@ -78,6 +97,12 @@
                     strokeWidth: 1,
                     showStroke: true
                 }));
+
+                if (match.link1 != null)
+                    this.matches[this.matches.length - 1].addLink(this.matches[match.link1]);
+                if (match.link2 != null)
+                    this.matches[this.matches.length - 1].addLink(this.matches[match.link2]);
+
             }, this);
 
             // TODO bind events
