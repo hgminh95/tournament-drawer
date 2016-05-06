@@ -14,7 +14,7 @@
     var ctx = document.getElementById("sampleCanvas").getContext("2d");
     ctx.translate(0.5, 0.5);
     var tour = new Tournament.Elimination(generateFakeData(), {}, ctx);
-
+    tour.bindEvent(document.getElementById("sampleCanvas"));
     </script>
   </body>
 </html>

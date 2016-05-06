@@ -274,6 +274,10 @@ Tournament.Player = class Player extends Tournament.Element {
         }
     }
 
+    inRange(tx, ty) {
+        return tx > this.x && ty > this.y && tx < this.x + this.width && ty < this.y + this.height;
+    }
+
     set player(player) {
         this._player = player;
 
@@ -297,10 +301,12 @@ Tournament.Player = class Player extends Tournament.Element {
     }
 
     set fillColor(color) {
-        this._fillColor = color;
+        if (this._fillColor != color) {
+            this._fillColor = color;
 
-        if (this.display)
-            this.draw();
+            if (this.display)
+                this.draw();
+        }
     }
 
     get fillColor() {

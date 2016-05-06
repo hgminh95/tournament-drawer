@@ -25,7 +25,7 @@ Tournament.Match = class Match extends Tournament.Element {
     }
 
     inRange(tx, ty) {
-        return false;
+        return tx > this.x && ty > this.y && tx < this.x + this.width && ty < this.y + this.height;
     }
 
     addLink(match) {
@@ -34,6 +34,22 @@ Tournament.Match = class Match extends Tournament.Element {
         connectPoint.y = match.y + match.height / 2;
 
         this.connectPoints.push(connectPoint);
+    }
+
+    highlight(tx, ty) {
+        if (this.player1 != null && this.player1.inRange(tx, ty)) {
+            this.player1.fillColor = '#ddd';
+            this.player2.fillColor = '#fff';
+        }
+        else if (this.player2 != null) {
+            this.player1.fillColor = '#fff';
+            this.player2.fillColor = '#ddd';
+        }
+    }
+
+    unHighlight() {
+        if (this.player1 != null) this.player1.fillColor = '#fff';
+        if (this.player2 != null) this.player2.fillColor = '#fff';
     }
 
     draw() {
@@ -114,9 +130,27 @@ Tournament.Elimination = class Elimination extends Tournament.Type {
 
         }, this);
 
-        // TODO bind events
-
         this.render();
+    }
+
+    bindEvent(canvas) {
+        var self = this;
+
+        canvas.addEventListener('mousemove', function(e) {
+            for (var match of self.matches) {
+                if (match.inRange(e.clientX, e.clientY))
+                    match.highlight(e.clientX, e.clientY);
+                else
+                    match.unHighlight();
+            }
+        });
+
+        canvas.addEventListener('click', function(e) {
+            for (var match of self.matches) {
+                if (match.inRange(e.clientX, e.clientY))
+                    console.log(match);
+            }
+        });
     }
 
     draw() {
