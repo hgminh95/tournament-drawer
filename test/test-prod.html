@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script type="text/javascript" src='../js/core.js'></script>
-    <script type="text/javascript" src='../js/elimination.js'></script>
-
+    <script type="text/javascript" src='../build/tournament-drawer.min.js'></script>
     <script type="text/javascript" src='../js/test.js'></script>
   </head>
   <body>
@@ -14,11 +12,6 @@
     var ctx = document.getElementById("sampleCanvas").getContext("2d");
     ctx.translate(0.5, 0.5);
     var tour = new Tournament.Elimination(generateFakeData(), {}, ctx);
-
-    tour.addMatchClickEventListener(function(match) {
-      console.log("Click " + match.x + ", " + match.y);
-    });
-
     </script>
   </body>
 </html>

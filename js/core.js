@@ -1,15 +1,6 @@
 "use strict";
 
-var root = this;
-var previous = root.Tournament;
-
-var Tournament = function(context) {
-    var tournament = this;
-    this.canvas = context.canvas;
-    this.ctx = context;
-
-    return this;
-}
+var Tournament = {};
 
 Tournament.defaults = {
     barColor: "#fff"
@@ -189,7 +180,7 @@ var unbindEvents = helpers.unbindEvents = function(tournament, events) {
 
 Tournament.instances = {};
 
-Tournament.Type = class Type {
+Tournament.Type = class {
     constructor(data, options, ctx) {
         this.options = merge(Tournament.defaults, options || {});
 
@@ -218,7 +209,7 @@ Tournament.Type = class Type {
     }
 }
 
-Tournament.Element = class Element {
+Tournament.Element = class {
     constructor(configuration) {
         extend(this, configuration);
     }
@@ -239,7 +230,7 @@ Tournament.Element = class Element {
     }
 }
 
-Tournament.Player = class Player extends Tournament.Element {
+Tournament.Player = class extends Tournament.Element {
     constructor(configuration) {
         super(configuration);
         this.display = true;
@@ -317,7 +308,6 @@ Tournament.Player = class Player extends Tournament.Element {
 helpers.addEvent(window, "resize", (function() {
     return function() {
         // TODO resize all tournament.
-        console.log("Window resize");
     }
 })());;
 

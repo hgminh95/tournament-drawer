@@ -31,7 +31,6 @@ var generateFakeData = function() {
             {
                 player1: 'Player 5',
                 player2: 'Player 6',
-                // Missing score means this match have not been played.
                 group: 0,
                 position: 240
             },
@@ -45,7 +44,6 @@ var generateFakeData = function() {
             },
             {
                 player1: 'short',
-                // Missing player's name means
                 link1: 2,
                 link2: 3,
                 group: 1,

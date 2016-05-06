@@ -1,9 +1,5 @@
 "use strict";
 
-var root = this;
-var Tournament = root.Tournament;
-var helpers = Tournament.helpers;
-
 var defaultConfig = {
     // Number - Width of a round
     roundWidth: 120,
@@ -16,7 +12,7 @@ var defaultConfig = {
     strokeColor: "#ddd"
 }
 
-Tournament.Match = class Match extends Tournament.Element {
+Tournament.Match = class extends Tournament.Element {
     constructor(configuration) {
         super(configuration);
 
@@ -97,7 +93,7 @@ Tournament.Match = class Match extends Tournament.Element {
     }
 }
 
-Tournament.Elimination = class Elimination extends Tournament.Type {
+Tournament.Elimination = class extends Tournament.Type {
     constructor(data, options, ctx) {
         options = merge(defaultConfig, options || {});
         super(data, options, ctx);
@@ -130,13 +126,15 @@ Tournament.Elimination = class Elimination extends Tournament.Type {
 
         }, this);
 
+        this.bindEvent();
+
         this.render();
     }
 
-    bindEvent(canvas) {
+    bindEvent() {
         var self = this;
 
-        canvas.addEventListener('mousemove', function(e) {
+        this.ctx.canvas.addEventListener('mousemove', function(e) {
             for (var match of self.matches) {
                 if (match.inRange(e.clientX, e.clientY))
                     match.highlight(e.clientX, e.clientY);
@@ -144,11 +142,15 @@ Tournament.Elimination = class Elimination extends Tournament.Type {
                     match.unHighlight();
             }
         });
+    }
 
-        canvas.addEventListener('click', function(e) {
+    addMatchClickEventListener(listener) {
+        var self = this;
+
+        this.ctx.canvas.addEventListener('click', function(e) {
             for (var match of self.matches) {
                 if (match.inRange(e.clientX, e.clientY))
-                    console.log(match);
+                    return listener(match);
             }
         });
     }
@@ -170,4 +172,3 @@ Tournament.Elimination = class Elimination extends Tournament.Type {
         //     ... will be added later
     }
 }
-
