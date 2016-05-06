@@ -239,7 +239,7 @@ Tournament.Element = class Element {
     }
 }
 
-class TDPlayer extends Tournament.Element {
+Tournament.Player = class Player extends Tournament.Element {
     constructor(configuration) {
         super(configuration);
         this.display = true;
@@ -272,6 +272,39 @@ class TDPlayer extends Tournament.Element {
                 ctx.fillText(this.score, this.x + this.width - 10, this.y + this.height / 2 + 4);
             }
         }
+    }
+
+    set player(player) {
+        this._player = player;
+
+        if (this.display)
+            this.draw();
+    }
+
+    get player() {
+        return this._player;
+    }
+
+    set score(score) {
+        this._score = score;
+
+        if (this.display)
+            this.draw();
+    }
+
+    get score() {
+        return this._score;
+    }
+
+    set fillColor(color) {
+        this._fillColor = color;
+
+        if (this.display)
+            this.draw();
+    }
+
+    get fillColor() {
+        return this._fillColor;
     }
 }
 

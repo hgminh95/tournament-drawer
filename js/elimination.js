@@ -38,7 +38,7 @@ Tournament.Match = class Match extends Tournament.Element {
 
     draw() {
         if (this.display) {
-            this.player1 = new TDPlayer({
+            this.player1 = new Tournament.Player({
                 ctx: this.ctx,
                 x: this.x,
                 y: this.y,
@@ -52,7 +52,7 @@ Tournament.Match = class Match extends Tournament.Element {
                 score: this.score1
             });
 
-            this.player2 = new TDPlayer({
+            this.player2 = new Tournament.Player({
                 ctx: this.ctx,
                 x: this.x,
                 y: this.y + this.height / 2,
