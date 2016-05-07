@@ -43,6 +43,20 @@ Tournament.Match = class extends Tournament.Element {
         }
     }
 
+    highlightPlayer(playerName) {
+        if (this.player1 != null) this.player1.fillColor = '#fff';
+        if (this.player2 != null) this.player2.fillColor = '#fff';
+
+        if (playerName == null) return null;
+
+        if (this.player1 != null && this.player1.player == playerName) {
+            this.player1.fillColor = '#ddd';
+        }
+        else if (this.player2 != null && this.player2.player == playerName) {
+            this.player2.fillColor = '#ddd';
+        }
+    }
+
     unHighlight() {
         if (this.player1 != null) this.player1.fillColor = '#fff';
         if (this.player2 != null) this.player2.fillColor = '#fff';
@@ -91,6 +105,17 @@ Tournament.Match = class extends Tournament.Element {
             }, this);
         }
     }
+
+    selectedPlayer(tx, ty) {
+        if (this.player1 != null && this.player1.inRange(tx, ty)) {
+            return this.player1.player;
+        }
+        else if (this.player2 != null) {
+            return this.player2.player;
+        }
+
+        return '$$';
+    }
 }
 
 Tournament.Elimination = class extends Tournament.Type {
@@ -135,12 +160,19 @@ Tournament.Elimination = class extends Tournament.Type {
         var self = this;
 
         this.ctx.canvas.addEventListener('mousemove', function(e) {
+            var playerName = '$$';
+
             for (var match of self.matches) {
-                if (match.inRange(e.clientX, e.clientY))
-                    match.highlight(e.clientX, e.clientY);
-                else
-                    match.unHighlight();
+                if (match.inRange(e.clientX, e.clientY)) {
+                    playerName = match.selectedPlayer(e.clientX, e.clientY);
+                    break;
+                }
             }
+
+            for (var match of self.matches) {
+                match.highlightPlayer(playerName);
+            }
+
         });
     }
 
