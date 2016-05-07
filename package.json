@@ -1,7 +1,7 @@
 {
   "name": "tournament-drawer",
   "description": "A library for rendering tournament bracket",
-  "version": "0.0.1beta",
+  "version": "0.0.3beta",
   "author": "hgminh95 <hgminh95@gmail.com>",
   "contributors": [],
   "license": "MIT",
