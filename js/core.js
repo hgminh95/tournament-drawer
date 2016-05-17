@@ -10,6 +10,15 @@ Tournament.types = {};
 
 var helpers = Tournament.helpers = {};
 
+helpers.getMousePos = function(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    
+    return {
+        x: Math.floor((evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width),
+        y: Math.floor((evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height)
+    }
+}
+
 var each = helpers.each = function(loopable, callback, self) {
     var additionalArgs = Array.prototype.slice.call(arguments, 3);
 

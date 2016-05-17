@@ -160,11 +160,12 @@ Tournament.Elimination = class extends Tournament.Type {
         var self = this;
 
         this.ctx.canvas.addEventListener('mousemove', function(e) {
+            var mousePos = Tournament.helpers.getMousePos(self.ctx.canvas, e);
             var playerName = '$$';
 
-            for (var match of self.matches) {
-                if (match.inRange(e.clientX, e.clientY)) {
-                    playerName = match.selectedPlayer(e.clientX, e.clientY);
+            for (var match of self.matches) {    
+                if (match.inRange(mousePos.x, mousePos.y)) {
+                    playerName = match.selectedPlayer(mousePos.x, mousePos.y);
                     break;
                 }
             }
@@ -180,8 +181,10 @@ Tournament.Elimination = class extends Tournament.Type {
         var self = this;
 
         this.ctx.canvas.addEventListener('click', function(e) {
+            var mousePos = Tournament.helpers.getMousePos(self.ctx.canvas, e);
+            
             for (var match of self.matches) {
-                if (match.inRange(e.clientX, e.clientY))
+                if (match.inRange(mousePos.x, mousePos.y))
                     return listener(match);
             }
         });
