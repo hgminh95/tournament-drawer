@@ -123,21 +123,35 @@ Tournament.Elimination = class extends Tournament.Type {
         options = merge(defaultConfig, options || {});
         super(data, options, ctx);
 
-        this.matches = [];
-
         var options = this.options;
 
+        this.groups = [];
+        helpers.each(data.groups, function(group, index) {
+            this.groups.push(new Tournament.Cell({
+                ctx: this.ctx,
+                x: index * options.roundWidth + index * options.roundSpacing + 5,
+                y: 5,
+                width: options.roundWidth,
+                height: data.meta.height / 2,
+                strokeColor: options.strokeColor,
+                fillColor: options.barColor,
+                strokeWidth: 1,
+                text: group
+            }));
+
+        }, this);
+
+        this.matches = [];
         helpers.each(data.matches, function(match, index) {
             this.matches.push(new Tournament.Match({
                 ctx: this.ctx,
                 x: match.group * options.roundWidth + match.group * options.roundSpacing + 5,
-                y: match.position + 5,
+                y: match.position + 5 + data.meta.height,
                 width: options.roundWidth,
                 height: data.meta.height,
                 strokeColor: options.strokeColor,
                 fillColor: options.barColor,
                 strokeWidth: 1,
-                showStroke: true,
                 player1: match.player1,
                 player2: match.player2,
                 score1: match.score1,
@@ -163,7 +177,7 @@ Tournament.Elimination = class extends Tournament.Type {
             var mousePos = Tournament.helpers.getMousePos(self.ctx.canvas, e);
             var playerName = '$$';
 
-            for (var match of self.matches) {    
+            for (var match of self.matches) {
                 if (match.inRange(mousePos.x, mousePos.y)) {
                     playerName = match.selectedPlayer(mousePos.x, mousePos.y);
                     break;
@@ -182,7 +196,7 @@ Tournament.Elimination = class extends Tournament.Type {
 
         this.ctx.canvas.addEventListener('click', function(e) {
             var mousePos = Tournament.helpers.getMousePos(self.ctx.canvas, e);
-            
+
             for (var match of self.matches) {
                 if (match.inRange(mousePos.x, mousePos.y))
                     return listener(match);
@@ -191,12 +205,15 @@ Tournament.Elimination = class extends Tournament.Type {
     }
 
     draw() {
-        // TODO draw round name
-
         ctx.font = this.options.textStyle;
-        helpers.each(this.matches, function(match, index) {
+
+        for (let group of this.groups) {
+            group.draw();
+        }
+
+        for (let match of this.matches) {
             match.draw();
-        }, this);
+        }
     }
 
     schedule(type, options) {

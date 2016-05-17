@@ -12,7 +12,7 @@ var helpers = Tournament.helpers = {};
 
 helpers.getMousePos = function(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
-    
+
     return {
         x: Math.floor((evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width),
         y: Math.floor((evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height)
@@ -239,9 +239,10 @@ Tournament.Element = class {
     }
 }
 
-Tournament.Player = class extends Tournament.Element {
+Tournament.Cell = class extends Tournament.Element {
     constructor(configuration) {
         super(configuration);
+
         this.display = true;
     }
 
@@ -251,27 +252,57 @@ Tournament.Player = class extends Tournament.Element {
 
             ctx.fillStyle = this.fillColor;
             ctx.strokeStyle = this.strokeColor;
-            ctx.lineWidth = this.strokeWidth;
+            ctx.lineWidth = this.lineWidth;
 
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.fill();
-            if (this.showStroke) {
-                ctx.stroke();
-            }
+            ctx.stroke();
 
-            if (this.player != null) {
-                ctx.textAlign = "left";
-                ctx.fillStyle = "#666666";
-                ctx.fillText(this.player, this.x + 10, this.y + this.height / 2 + 4);
-            }
-
-            if (this.score != null) {
-                ctx.textAlign = "right";
-                ctx.fillStyle = "#666666";
-                ctx.fillText(this.score, this.x + this.width - 10, this.y + this.height / 2 + 4);
-            }
+            if (this.text != null)
+                this.drawText(this.text, 0, "center");
         }
+    }
+
+    drawText(text, size, align) {
+        var ctx = this.ctx;
+
+        ctx.textAlign = align;
+        ctx.fillStyle = '#666666';
+
+        if (align === "left") {
+            ctx.fillText(text, this.x + 10, this.y + this.height / 2 + 4);
+        }
+        else if (align === "right") {
+            ctx.fillText(text, this.x + this.width - 10, this.y + this.height / 2 + 4);
+        }
+        else if (align === "center") {
+            ctx.fillText(text, this.x + this.width / 2, this.y + this.height / 2 + 4);
+        }
+    }
+
+    set fillColor(color) {
+        if (this._fillColor != color) {
+            this._fillColor = color;
+
+            if (this.display)
+                this.draw();
+        }
+    }
+
+    get fillColor() {
+        return this._fillColor;
+    }
+}
+
+Tournament.Player = class extends Tournament.Cell {
+    draw() {
+        super.draw();
+
+        if (this.player != null)
+            super.drawText(this.player, 0, "left");
+        if (this.score != null)
+            super.drawText(this.score, 0, "right");
     }
 
     inRange(tx, ty) {
@@ -298,19 +329,6 @@ Tournament.Player = class extends Tournament.Element {
 
     get score() {
         return this._score;
-    }
-
-    set fillColor(color) {
-        if (this._fillColor != color) {
-            this._fillColor = color;
-
-            if (this.display)
-                this.draw();
-        }
-    }
-
-    get fillColor() {
-        return this._fillColor;
     }
 }
 

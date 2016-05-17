@@ -3,6 +3,7 @@ var generateFakeData = function() {
         meta: {
             height: 50
         },
+        groups: ["Quater-final", "Semi-final", "Final"],
         matches: [
             {
                 player1: 'Player 1',
