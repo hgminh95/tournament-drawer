@@ -120,7 +120,7 @@ Tournament.Match = class extends Tournament.Element {
 
 Tournament.Elimination = class extends Tournament.Type {
     constructor(data, options, ctx) {
-        options = merge(defaultConfig, options || {});
+        options = helpers.merge(defaultConfig, options || {});
         super(data, options, ctx);
 
         var options = this.options;

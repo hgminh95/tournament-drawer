@@ -16,8 +16,8 @@ gulp.task('clean', function() {
 gulp.task('scripts', ['clean'], function() {
     return gulp.src(paths.scripts)
         .pipe(babel({
-			presets: ['es2015']
-		}))
+            presets: ['es2015']
+        }))
         .pipe(sourcemaps.init())
             .pipe(uglify().on('error', function(e) {
                 console.log(e)
