@@ -3,7 +3,9 @@
 var Tournament = {};
 
 Tournament.defaults = {
-    barColor: "#fff"
+    barColor: "#fff",
+
+    padding: 5
 };
 
 Tournament.types = {};

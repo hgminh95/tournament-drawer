@@ -9,7 +9,9 @@ var defaultConfig = {
 
     textStyle: "10px Open Sans",
 
-    strokeColor: "#ddd"
+    strokeColor: "#ddd",
+
+    scaleToFit: true
 }
 
 Tournament.Match = class extends Tournament.Element {
@@ -125,12 +127,17 @@ Tournament.Elimination = class extends Tournament.Type {
 
         var options = this.options;
 
+        if (options.scaleToFit) {
+            options.roundWidth = Math.floor((this.ctx.canvas.width - 2 * options.roundSpacing - options.padding * 2) / 3);
+            console.log(options.roundWidth);
+        }
+
         this.groups = [];
         helpers.each(data.groups, function(group, index) {
             this.groups.push(new Tournament.Cell({
                 ctx: this.ctx,
-                x: index * options.roundWidth + index * options.roundSpacing + 5,
-                y: 5,
+                x: index * options.roundWidth + index * options.roundSpacing + options.padding,
+                y: options.padding,
                 width: options.roundWidth,
                 height: data.meta.height / 2,
                 strokeColor: options.strokeColor,
@@ -145,8 +152,8 @@ Tournament.Elimination = class extends Tournament.Type {
         helpers.each(data.matches, function(match, index) {
             this.matches.push(new Tournament.Match({
                 ctx: this.ctx,
-                x: match.group * options.roundWidth + match.group * options.roundSpacing + 5,
-                y: match.position + 5 + data.meta.height,
+                x: match.group * options.roundWidth + match.group * options.roundSpacing + options.padding,
+                y: match.position + options.padding + data.meta.height,
                 width: options.roundWidth,
                 height: data.meta.height,
                 strokeColor: options.strokeColor,
