@@ -22,7 +22,10 @@
     <script type="text/javascript">
 
     var ctx = document.getElementById("sampleCanvas").getContext("2d");
-    var tour = new Tournament.Elimination(Tournament.Elimination.generate("single", { round: 4 }), {}, ctx);
+    var tour = new Tournament.Elimination(Tournament.Elimination.generate("single", { round: 4 }), {
+      scaleToFit: false,
+      roundsPerPage: 100
+    }, ctx);
 
     tour.addMatchClickEventListener(function(match) {
       console.log("Click " + match.x + ", " + match.y);

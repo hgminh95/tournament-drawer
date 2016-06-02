@@ -161,6 +161,7 @@ Tournament.Elimination = class extends Tournament.Type {
 
         this.matches = [];
         var maxHeight = 0;
+        var maxWidth = 0;
         helpers.each(data.matches, function(match, index) {
             this.matches.push(new Tournament.Match({
                 ctx: this.ctx,
@@ -182,10 +183,13 @@ Tournament.Elimination = class extends Tournament.Type {
                 this.matches[this.matches.length - 1].addLink(this.matches[match.link2]);
 
             maxHeight = Math.max(maxHeight, this.matches[this.matches.length - 1].y + data.meta.height);
+            maxWidth = Math.max(maxWidth, this.matches[this.matches.length - 1].x + options.roundWidth);
         }, this);
 
-        this.ctx.canvas.height = maxHeight + options.padding + .5;
-        this.ctx.canvas.style.height = this.ctx.canvas.height + 'px';
+        this.ctx.canvas.height = maxHeight + options.padding;
+        if (!options.scaleToFit) {
+            this.ctx.canvas.width = maxWidth + options.padding;
+        }
         this.ctx.translate(0.5, 0.5);
 
         this.bindHightlightEvent();
