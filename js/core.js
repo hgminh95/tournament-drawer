@@ -68,15 +68,6 @@ helpers.merge = function(base, master) {
 
 helpers.noop = function() {};
 
-helpers.uid = (function() {
-    var id = 0;
-    return function() {
-        return "chart-" + id++;
-    };
-})();
-
-helpers.amd = (typeof define === 'function' && define.amd);
-
 helpers.addEvent = function(node, eventType, method) {
     if (node.addEventListener) {
         node.addEventListener(eventType, method);
@@ -184,7 +175,6 @@ Tournament.Cell = class extends Tournament.Element {
 
             ctx.fillStyle = this.fillColor;
             ctx.strokeStyle = this.strokeColor;
-            ctx.lineWidth = this.lineWidth;
 
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.width, this.height);
@@ -213,6 +203,10 @@ Tournament.Cell = class extends Tournament.Element {
         }
     }
 
+    inRange(tx, ty) {
+        return tx > this.x && ty > this.y && tx < this.x + this.width && ty < this.y + this.height;
+    }
+
     set fillColor(color) {
         if (this._fillColor != color) {
             this._fillColor = color;
@@ -235,10 +229,6 @@ Tournament.Player = class extends Tournament.Cell {
             super.drawText(this.player, 0, "left");
         if (this.score != null)
             super.drawText(this.score, 0, "right");
-    }
-
-    inRange(tx, ty) {
-        return tx > this.x && ty > this.y && tx < this.x + this.width && ty < this.y + this.height;
     }
 
     set player(player) {
@@ -269,12 +259,3 @@ helpers.addEvent(window, "resize", (function() {
         // TODO resize all tournament.
     }
 })());;
-
-if (helpers.amd) {
-    define('Tournament', [], function() {
-        return Tournament;
-    });
-}
-else if (typeof module === 'object' && module.exports) {
-    module.exports = Tournament;
-}

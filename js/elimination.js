@@ -87,7 +87,6 @@ Tournament.Match = class extends Tournament.Element {
                 height: this.height / 2,
                 strokeColor: this.strokeColor,
                 fillColor: this.fillColor,
-                strokeWidth: this.strokeWidth,
                 showStroke: this.showStroke,
                 player: this.player1,
                 score: this.score1
@@ -101,7 +100,6 @@ Tournament.Match = class extends Tournament.Element {
                 height: this.height - this.height / 2,
                 strokeColor: this.strokeColor,
                 fillColor: this.fillColor,
-                strokeWidth: this.strokeWidth,
                 showStroke: this.showStroke,
                 player: this.player2,
                 score: this.score2
@@ -156,7 +154,6 @@ Tournament.Elimination = class extends Tournament.Type {
                 height: data.meta.height / 2,
                 strokeColor: options.strokeColor,
                 fillColor: options.barColor,
-                strokeWidth: 1,
                 text: group
             }));
 
@@ -173,7 +170,6 @@ Tournament.Elimination = class extends Tournament.Type {
                 height: data.meta.height,
                 strokeColor: options.strokeColor,
                 fillColor: options.barColor,
-                strokeWidth: 1,
                 player1: match.player1,
                 player2: match.player2,
                 score1: match.score1,
@@ -192,12 +188,12 @@ Tournament.Elimination = class extends Tournament.Type {
         this.ctx.canvas.style.height = this.ctx.canvas.height + 'px';
         this.ctx.translate(0.5, 0.5);
 
-        this.bindEvent();
+        this.bindHightlightEvent();
 
         this.render();
     }
 
-    bindEvent() {
+    bindHightlightEvent() {
         var self = this;
 
         this.ctx.canvas.addEventListener('mousemove', function(e) {
@@ -241,14 +237,6 @@ Tournament.Elimination = class extends Tournament.Type {
         for (let match of this.matches) {
             match.draw();
         }
-    }
-
-    schedule(type, options) {
-        // TODO auto generate data.matches
-        // type: "single" or "double"
-        // options:
-        //     playersCount <required> number of players
-        //     ... will be added later
     }
 }
 
