@@ -11,7 +11,9 @@ var defaultConfig = {
 
     strokeColor: "#ddd",
 
-    scaleToFit: true
+    scaleToFit: true,
+
+    roundsPerPage: 3
 }
 
 helpers.powerOf2 = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048];
@@ -139,8 +141,9 @@ Tournament.Elimination = class extends Tournament.Type {
         var options = this.options;
 
         if (options.scaleToFit) {
-            options.roundWidth = Math.floor((this.ctx.canvas.width - 2 * options.roundSpacing - options.padding * 2) / 3);
-            console.log(options.roundWidth);
+            options.roundWidth = Math.floor(
+                (this.ctx.canvas.width - 2 * options.roundSpacing - options.padding * 2) / options.roundsPerPage
+            );
         }
 
         this.groups = [];
@@ -160,6 +163,7 @@ Tournament.Elimination = class extends Tournament.Type {
         }, this);
 
         this.matches = [];
+        var maxHeight = 0;
         helpers.each(data.matches, function(match, index) {
             this.matches.push(new Tournament.Match({
                 ctx: this.ctx,
@@ -181,7 +185,12 @@ Tournament.Elimination = class extends Tournament.Type {
             if (match.link2 != null)
                 this.matches[this.matches.length - 1].addLink(this.matches[match.link2]);
 
+            maxHeight = Math.max(maxHeight, this.matches[this.matches.length - 1].y + data.meta.height);
         }, this);
+
+        this.ctx.canvas.height = maxHeight + options.padding + .5;
+        this.ctx.canvas.style.height = this.ctx.canvas.height + 'px';
+        this.ctx.translate(0.5, 0.5);
 
         this.bindEvent();
 
@@ -252,9 +261,9 @@ Tournament.Elimination.generate = function(type, options) {
         }
     };
 
-    result.group = [];
+    result.groups = [];
     for (var i = 0; i < options.round; i++)
-        result.group.push(helpers.roundName(options.round - 1 - i));
+        result.groups.push(helpers.roundName(options.round - 1 - i));
 
     var dist = 80;
 
