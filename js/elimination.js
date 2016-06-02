@@ -204,14 +204,16 @@ Tournament.Elimination = class extends Tournament.Type {
             var mousePos = Tournament.helpers.getMousePos(self.ctx.canvas, e);
             var playerName = '$$';
 
-            for (var match of self.matches) {
+            document.body.style.cursor = 'default';
+            for (let match of self.matches) {
                 if (match.inRange(mousePos.x, mousePos.y)) {
+                    document.body.style.cursor = 'pointer';
                     playerName = match.selectedPlayer(mousePos.x, mousePos.y);
                     break;
                 }
             }
 
-            for (var match of self.matches) {
+            for (let match of self.matches) {
                 match.highlightPlayer(playerName);
             }
 

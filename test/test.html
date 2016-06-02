@@ -28,7 +28,10 @@
     }, ctx);
 
     tour.addMatchClickEventListener(function(match) {
-      console.log("Click " + match.x + ", " + match.y);
+      var playerName = prompt("Enter player name: ", "");
+      if (playerName != null) {
+        match.player1.player = playerName;
+      }
     });
 
     </script>
