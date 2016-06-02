@@ -14,6 +14,17 @@ var defaultConfig = {
     scaleToFit: true
 }
 
+helpers.powerOf2 = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048];
+
+helpers.roundName = function(round) {
+    switch (round) {
+        case 0: return "Final";
+        case 1: return "Semi-Final";
+        case 2: return "Quater-Final";
+        default: return "Round of " + helpers.powerOf2[round + 1];
+    }
+}
+
 Tournament.Match = class extends Tournament.Element {
     constructor(configuration) {
         super(configuration);
@@ -230,4 +241,55 @@ Tournament.Elimination = class extends Tournament.Type {
         //     playersCount <required> number of players
         //     ... will be added later
     }
+}
+
+// Static functions
+
+Tournament.Elimination.generate = function(type, options) {
+    var result = {
+        meta: {
+            height: 50
+        }
+    };
+
+    result.group = [];
+    for (var i = 0; i < options.round; i++)
+        result.group.push(helpers.roundName(options.round - 1 - i));
+
+    var dist = 80;
+
+    result.matches = [];
+    if (type === 'single') {
+        for (var i = 0; i < options.round; i++) {
+            var numMatches = helpers.powerOf2[options.round - 1 - i];
+
+            var prevPos = -dist;
+            for (var j = 0; j < numMatches; j++) {
+                var match = {
+                    group: i,
+                    position: prevPos + dist
+                }
+
+                if (i != 0) {
+                    var numMatchesInPrevRound = helpers.powerOf2[options.round - i];
+
+                    match.link1 = result.matches.length - numMatchesInPrevRound + j;
+                    match.link2 = result.matches.length - numMatchesInPrevRound + j + 1;
+                    match.position = Math.floor(
+                        (result.matches[match.link1].position + result.matches[match.link2].position) / 2
+                    );
+                }
+
+                result.matches.push(match);
+
+                prevPos = match.position;
+            }
+        }
+
+    }
+    else {
+        // currently only support single elimination
+    }
+
+    return result;
 }

@@ -23,7 +23,7 @@
 
     var ctx = document.getElementById("sampleCanvas").getContext("2d");
     ctx.translate(0.5, 0.5);
-    var tour = new Tournament.Elimination(generateFakeData(), {}, ctx);
+    var tour = new Tournament.Elimination(Tournament.Elimination.generate("single", { round: 3 }), {}, ctx);
 
     tour.addMatchClickEventListener(function(match) {
       console.log("Click " + match.x + ", " + match.y);
