@@ -24,7 +24,7 @@
     var ctx = document.getElementById("sampleCanvas").getContext("2d");
     var tour = new Tournament.Elimination(Tournament.Elimination.generate("single", { round: 4 }), {
       scaleToFit: false,
-      roundsPerPage: 100
+      roundsPerPage: 3
     }, ctx);
 
     tour.addMatchClickEventListener(function(match) {

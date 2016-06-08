@@ -12,12 +12,12 @@ Tournament.types = {};
 
 var helpers = Tournament.helpers = {};
 
-helpers.getMousePos = function(canvas, evt) {
+helpers.getMousePos = function(canvas, evt, translate) {
     var rect = canvas.getBoundingClientRect();
 
     return {
-        x: Math.floor((evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width),
-        y: Math.floor((evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height)
+        x: Math.floor((evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width + translate.x),
+        y: Math.floor((evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height + translate.y)
     }
 }
 
@@ -123,7 +123,7 @@ Tournament.Type = class {
     }
 
     clear() {
-        this.ctx.clearRect(0, 0, tournament.width, tournament.height);
+        this.ctx.clearRect(0, 0, this.ctx.canvas.width * 10, this.ctx.canvas.height);
         return this;
     }
 

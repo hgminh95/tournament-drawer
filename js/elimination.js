@@ -33,6 +33,8 @@ Tournament.Match = class extends Tournament.Element {
 
         this.connectPoints = [];
         this.display = true;
+
+        this.createPlayer();
     }
 
     inRange(tx, ty) {
@@ -79,43 +81,17 @@ Tournament.Match = class extends Tournament.Element {
 
     draw() {
         if (this.display) {
-            this.player1 = new Tournament.Player({
-                ctx: this.ctx,
-                x: this.x,
-                y: this.y,
-                width: this.width,
-                height: this.height / 2,
-                strokeColor: this.strokeColor,
-                fillColor: this.fillColor,
-                showStroke: this.showStroke,
-                player: this.player1,
-                score: this.score1
-            });
-
-            this.player2 = new Tournament.Player({
-                ctx: this.ctx,
-                x: this.x,
-                y: this.y + this.height / 2,
-                width: this.width,
-                height: this.height - this.height / 2,
-                strokeColor: this.strokeColor,
-                fillColor: this.fillColor,
-                showStroke: this.showStroke,
-                player: this.player2,
-                score: this.score2
-            });
-
             this.player1.draw();
             this.player2.draw();
 
-            helpers.each(this.connectPoints, function(point, index) {
+            for (var point of this.connectPoints) {
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y + this.height / 2);
                 ctx.lineTo((this.x + point.x) / 2, this.y + this.height / 2);
                 ctx.lineTo((this.x + point.x) / 2, point.y);
                 ctx.lineTo(point.x, point.y);
                 ctx.stroke();
-            }, this);
+            }
         }
     }
 
@@ -128,6 +104,34 @@ Tournament.Match = class extends Tournament.Element {
         }
 
         return '$$';
+    }
+
+    createPlayer() {
+        this.player1 = new Tournament.Player({
+                ctx: this.ctx,
+                x: this.x,
+                y: this.y,
+                width: this.width,
+                height: this.height / 2,
+                strokeColor: this.strokeColor,
+                fillColor: this.fillColor,
+                showStroke: this.showStroke,
+                player: this.player1,
+                score: this.score1
+            });
+
+        this.player2 = new Tournament.Player({
+            ctx: this.ctx,
+            x: this.x,
+            y: this.y + this.height / 2,
+            width: this.width,
+            height: this.height - this.height / 2,
+            strokeColor: this.strokeColor,
+            fillColor: this.fillColor,
+            showStroke: this.showStroke,
+            player: this.player2,
+            score: this.score2
+        });
     }
 }
 
@@ -188,10 +192,13 @@ Tournament.Elimination = class extends Tournament.Type {
         }, this);
 
         this.ctx.canvas.height = maxHeight + options.padding;
-        if (!options.scaleToFit) {
+        if (options.scaleToFit) {
             this.ctx.canvas.width = maxWidth + options.padding;
         }
         this.ctx.translate(0.5, 0.5);
+        this.translate = { x: -.5, y: -.5 };
+
+        this.roundIndex = 0;
 
         this.bindHightlightEvent();
 
@@ -202,7 +209,7 @@ Tournament.Elimination = class extends Tournament.Type {
         var self = this;
 
         this.ctx.canvas.addEventListener('mousemove', function(e) {
-            var mousePos = Tournament.helpers.getMousePos(self.ctx.canvas, e);
+            var mousePos = Tournament.helpers.getMousePos(self.ctx.canvas, e, self.translate);
             var playerName = '$$';
 
             document.body.style.cursor = 'default';
@@ -225,7 +232,7 @@ Tournament.Elimination = class extends Tournament.Type {
         var self = this;
 
         this.ctx.canvas.addEventListener('click', function(e) {
-            var mousePos = Tournament.helpers.getMousePos(self.ctx.canvas, e);
+            var mousePos = Tournament.helpers.getMousePos(self.ctx.canvas, e, self.translate);
 
             for (var match of self.matches) {
                 if (match.inRange(mousePos.x, mousePos.y))
@@ -235,6 +242,8 @@ Tournament.Elimination = class extends Tournament.Type {
     }
 
     draw() {
+        this.clear();
+
         ctx.font = this.options.textStyle;
 
         for (let group of this.groups) {
@@ -243,6 +252,36 @@ Tournament.Elimination = class extends Tournament.Type {
 
         for (let match of this.matches) {
             match.draw();
+        }
+    }
+
+    next() {
+        if (!this.options.scaleToFit) {
+            var nextRoundIndex = this.roundIndex + 1;
+
+            if (nextRoundIndex >= 0 && nextRoundIndex + this.options.roundsPerPage <= this.groups.length) {
+                this.ctx.translate(- this.options.roundWidth - this.options.roundSpacing, 0);
+                this.translate.x -= - this.options.roundWidth - this.options.roundSpacing;
+
+                this.draw();
+
+                this.roundIndex = nextRoundIndex;
+            }
+        }
+    }
+
+    prev() {
+        if (!this.options.scaleToFit) {
+            var nextRoundIndex = this.roundIndex - 1;
+
+            if (nextRoundIndex >= 0 && nextRoundIndex + this.options.roundsPerPage <= this.groups.length) {
+                this.ctx.translate(this.options.roundWidth + this.options.roundSpacing, 0);
+                this.translate.x -= this.options.roundWidth + this.options.roundSpacing;
+
+                this.draw();
+
+                this.roundIndex = nextRoundIndex;
+            }
         }
     }
 }
