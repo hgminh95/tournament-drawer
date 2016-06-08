@@ -174,7 +174,8 @@ Tournament.Elimination = class extends Tournament.Type {
                 player1: match.player1,
                 player2: match.player2,
                 score1: match.score1,
-                score2: match.score2
+                score2: match.score2,
+                raw: match
             }));
 
             if (match.link1 != null)
