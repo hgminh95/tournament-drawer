@@ -1,6 +1,6 @@
 # tournament-drawer
 
-**NOTE: This project is under heavy development**
+**NOTE: This project is no longer under development**
 
 A library for rendering tournament bracket.
 
